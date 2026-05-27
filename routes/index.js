@@ -5,6 +5,11 @@ const { Question, Answer } = require('../models/CardModel');
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'le3beh2024';
 
+// ── Escape special regex characters ──
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // ── Game ──
 router.get('/', (req, res) => res.render('index', { title: 'Le3beh 3a Krouteh' }));
 
@@ -50,8 +55,7 @@ router.get('/admin/dashboard', requireAdmin, async (req, res) => {
 router.post('/admin/questions/add', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return renderDashboard(res, 'Question text cannot be empty!', 'error');
-  // Check duplicate (case-insensitive)
-  const existing = await Question.findOne({ text: { $regex: new RegExp(`^${text}$`, 'i') } });
+  const existing = await Question.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') } });
   if (existing) return renderDashboard(res, `Duplicate! "${text}" already exists.`, 'error');
   await Question.create({ text });
   await renderDashboard(res, `Question added: "${text}"`, 'success');
@@ -71,8 +75,7 @@ router.post('/admin/questions/toggle/:id', requireAdmin, async (req, res) => {
 router.post('/admin/questions/edit/:id', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return renderDashboard(res, 'Question text cannot be empty!', 'error');
-  // Check duplicate excluding current
-  const existing = await Question.findOne({ text: { $regex: new RegExp(`^${text}$`, 'i') }, _id: { $ne: req.params.id } });
+  const existing = await Question.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') }, _id: { $ne: req.params.id } });
   if (existing) return renderDashboard(res, `Duplicate! "${text}" already exists.`, 'error');
   await Question.findByIdAndUpdate(req.params.id, { text });
   await renderDashboard(res, `Question updated to: "${text}"`, 'success');
@@ -82,8 +85,7 @@ router.post('/admin/questions/edit/:id', requireAdmin, async (req, res) => {
 router.post('/admin/answers/add', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return renderDashboard(res, 'Answer text cannot be empty!', 'error');
-  // Check duplicate (case-insensitive)
-  const existing = await Answer.findOne({ text: { $regex: new RegExp(`^${text}$`, 'i') } });
+  const existing = await Answer.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') } });
   if (existing) return renderDashboard(res, `Duplicate! "${text}" already exists.`, 'error');
   await Answer.create({ text });
   await renderDashboard(res, `Answer added: "${text}"`, 'success');
@@ -103,8 +105,7 @@ router.post('/admin/answers/toggle/:id', requireAdmin, async (req, res) => {
 router.post('/admin/answers/edit/:id', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return renderDashboard(res, 'Answer text cannot be empty!', 'error');
-  // Check duplicate excluding current
-  const existing = await Answer.findOne({ text: { $regex: new RegExp(`^${text}$`, 'i') }, _id: { $ne: req.params.id } });
+  const existing = await Answer.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') }, _id: { $ne: req.params.id } });
   if (existing) return renderDashboard(res, `Duplicate! "${text}" already exists.`, 'error');
   await Answer.findByIdAndUpdate(req.params.id, { text });
   await renderDashboard(res, `Answer updated to: "${text}"`, 'success');
