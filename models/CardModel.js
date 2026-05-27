@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 
 const questionSchema = new mongoose.Schema({
   text: { type: String, required: true, trim: true },
+  answerCount: { type: Number, default: 1, enum: [1, 2] },
   active: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
 });
@@ -16,23 +17,22 @@ const answerSchema = new mongoose.Schema({
 const Question = mongoose.model('Question', questionSchema);
 const Answer = mongoose.model('Answer', answerSchema);
 
-// Default questions to seed on first run
 const DEFAULT_QUESTIONS = [
-  "2alouleh ___ bass ma sadda2et.",
-  "Chou bte3mel la7zartak lamma tkoun brou7ak bel bayt?",
-  "Shou el jaweb el ideal la hal sou2al: Leish el 7ayeh?",
-  "El shay el wa7id yalli biftaker fio abel ma ynam howeh ___.",
-  "Chou bta2oulo la wa7ad yalli byed3ak 3al 3azimeh w enta ma baddak trouh?",
-  "El doktor 2alak en3am 3a 7alak, ma 3andak gheir ___.",
-  "Chou byehsal lamma tbaddel el channel w te2sa bel mandra3?",
-  "Shou el a7san hediyyeh la 3id melad?",
-  "Leish ma rde7et 3ala el interview? Kenet ___ kter.",
-  "Law ken fi wifi bel janna, shou kan esmo?",
-  "Chou byehsal lamma el kahraba tinfa2e bel bayt?",
-  "El lebneneh ma byi3ich min ___.",
-  "Chou byehsal lamma t2oulo 'bas chi shwayy' bel 7afeleh?",
-  "Shou bteshtri 2eza 3andak 100 dolar extra?",
-  "Chou bya3mel el lebneneh 2abel ma ynem?",
+  { text: "2alouleh ___ bass ma sadda2et.", answerCount: 1 },
+  { text: "Chou bte3mel la7zartak lamma tkoun brou7ak bel bayt?", answerCount: 1 },
+  { text: "Shou el jaweb el ideal la hal sou2al: Leish el 7ayeh?", answerCount: 1 },
+  { text: "El shay el wa7id yalli biftaker fio abel ma ynam howeh ___.", answerCount: 1 },
+  { text: "Chou bta2oulo la wa7ad yalli byed3ak 3al 3azimeh w enta ma baddak trouh?", answerCount: 1 },
+  { text: "El doktor 2alak en3am 3a 7alak, ma 3andak gheir ___.", answerCount: 1 },
+  { text: "Chou byehsal lamma tbaddel el channel w te2sa bel mandra3?", answerCount: 1 },
+  { text: "Shou el a7san hediyyeh la 3id melad?", answerCount: 1 },
+  { text: "Leish ma rde7et 3ala el interview? Kenet ___ kter.", answerCount: 1 },
+  { text: "Law ken fi wifi bel janna, shou kan esmo?", answerCount: 1 },
+  { text: "Chou byehsal lamma el kahraba tinfa2e bel bayt?", answerCount: 1 },
+  { text: "El lebneneh ma byi3ich min ___.", answerCount: 1 },
+  { text: "2alouleh ___ w ___ bass ma sadda2et.", answerCount: 2 },
+  { text: "El mandra3 el kamil byehtaj ___ w ___.", answerCount: 2 },
+  { text: "Shou bteshtri 2eza 3andak 100 dolar extra?", answerCount: 1 },
 ];
 
 const DEFAULT_ANSWERS = [
@@ -48,14 +48,16 @@ const DEFAULT_ANSWERS = [
   "Nayem 3al sofa", "Baddou ye7ki bass ma bya3ref keif",
   "Shu2ul bayyi", "Dawleh jdideh", "Warak dawali", "Na2l bel 7aret",
   "Yalla Fadi 2arafte na", "Eddeh tbousak", "Kefir w tabouleh",
-  "Byit3asab 3a chi ma byes3ad",
+  "Byit3asab 3a chi ma byes3ad", "3an jadd bala manyakeh",
+  "Bon appetit ya 3ammi", "Kebbeh w arak", "Neskafe w cigarette",
+  "Whatsapp voice note", "Stories 3al instagram", "Tele2on men el em",
 ];
 
 async function seedIfEmpty() {
   const qCount = await Question.countDocuments();
   const aCount = await Answer.countDocuments();
   if (qCount === 0) {
-    await Question.insertMany(DEFAULT_QUESTIONS.map(text => ({ text })));
+    await Question.insertMany(DEFAULT_QUESTIONS);
     console.log(`Seeded ${DEFAULT_QUESTIONS.length} questions`);
   }
   if (aCount === 0) {
