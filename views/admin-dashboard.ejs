@@ -7,29 +7,49 @@
   <style>
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:#0d0d0d;color:#f0ece0;font-family:'Segoe UI',sans-serif}
-    .header{background:#1a1a1a;border-bottom:0.5px solid rgba(255,255,255,0.1);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+    .header{background:#1a1a1a;border-bottom:0.5px solid rgba(255,255,255,0.1);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
     .header h1{color:#c9a84c;font-size:20px}
-    .header-right{display:flex;gap:12px;align-items:center}
+    .header-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .badge{background:#0a1a2a;color:#4477ee;border:0.5px solid #2255cc;border-radius:6px;padding:4px 10px;font-size:12px}
     .logout{color:#a09880;font-size:13px;text-decoration:none;padding:6px 12px;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px}
     .logout:hover{color:#f0ece0}
-    .container{max-width:1100px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
-    @media(max-width:768px){.container{grid-template-columns:1fr}}
-    .panel{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.15);border-radius:16px;overflow:hidden}
-    .panel-header{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}
-    .panel-title{font-size:12px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:1px}
+    .wrap{max-width:1100px;margin:0 auto;padding:16px 24px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+    @media(max-width:600px){.stats{grid-template-columns:1fr 1fr}}
+    .stat{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px;text-align:center}
+    .stat-num{font-size:32px;font-weight:800;color:#c9a84c}
+    .stat-label{font-size:11px;color:#a09880;margin-top:3px}
+    .alert{padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px}
+    .alert-success{background:#0a2a0a;color:#3d9e66;border:0.5px solid #2d7a4f}
+    .alert-error{background:#2a0a0a;color:#ff8888;border:0.5px solid #cc3333}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    @media(max-width:768px){.grid{grid-template-columns:1fr}}
+    .panel{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.15);border-radius:16px;overflow:hidden;margin-bottom:20px}
+    .panel-header{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}
+    .panel-title{font-size:11px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:1px}
     .panel-count{font-size:12px;color:#a09880;background:#242424;border-radius:20px;padding:3px 10px}
-    .add-form{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;gap:8px}
-    .add-form input{flex:1;background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 12px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
+    .add-form{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;gap:8px;flex-wrap:wrap}
+    .add-form input{flex:1;min-width:120px;background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 12px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
     .add-form input:focus{border-color:#c9a84c}
-    .btn-add{background:#c9a84c;color:#1a1200;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+    .add-form select{background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:8px 10px;color:#f0ece0;font-size:12px;outline:none}
+    .btn-add{background:#c9a84c;color:#1a1200;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
     .btn-add:hover{background:#e8c76d}
-    .cards-list{padding:12px 20px;display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto}
-    .card-item{background:#242424;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px}
+    .bulk-section{padding:14px 18px;border-bottom:0.5px solid rgba(255,255,255,0.08)}
+    .bulk-section summary{font-size:12px;font-weight:700;color:#4477ee;cursor:pointer;padding:4px 0;user-select:none}
+    .bulk-section summary:hover{color:#6699ff}
+    .bulk-inner{margin-top:10px;display:flex;flex-direction:column;gap:8px}
+    textarea{width:100%;background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 12px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif;resize:vertical;min-height:120px;line-height:1.6}
+    textarea:focus{border-color:#4477ee}
+    .btn-bulk{background:#2255cc;color:white;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer}
+    .btn-bulk:hover{background:#4477ee}
+    .bulk-hint{font-size:11px;color:#a09880;line-height:1.5}
+    .cards-list{padding:10px 18px;display:flex;flex-direction:column;gap:6px;max-height:500px;overflow-y:auto}
+    .card-item{background:#242424;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:9px 12px}
     .card-item.inactive{opacity:0.4}
-    .card-text{font-size:13px;font-family:'Tajawal','Segoe UI',sans-serif;line-height:1.4;margin-bottom:8px;color:#f0ece0}
-    .card-actions{display:flex;gap:6px;flex-wrap:wrap}
-    .btn-sm{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:0.5px solid;background:transparent}
+    .card-text{font-size:13px;font-family:'Tajawal','Segoe UI',sans-serif;line-height:1.4;margin-bottom:7px;color:#f0ece0}
+    .card-meta{font-size:10px;color:#a09880;margin-bottom:5px}
+    .card-actions{display:flex;gap:5px;flex-wrap:wrap}
+    .btn-sm{padding:3px 9px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:0.5px solid;background:transparent}
     .btn-delete{color:#ff8888;border-color:#cc3333}
     .btn-delete:hover{background:#2a0a0a}
     .btn-toggle{color:#a09880;border-color:rgba(255,255,255,0.15)}
@@ -39,32 +59,28 @@
     .active-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
     .dot-on{background:#3d9e66}
     .dot-off{background:#555}
-    .edit-form{display:none;margin-top:8px;gap:6px}
-    .edit-form input{flex:1;background:#0d0d0d;border:0.5px solid #2255cc;border-radius:6px;padding:6px 10px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
+    .edit-form{display:none;margin-top:8px;gap:6px;flex-wrap:wrap}
+    .edit-form input{flex:1;min-width:100px;background:#0d0d0d;border:0.5px solid #2255cc;border-radius:6px;padding:6px 10px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
+    .edit-form select{background:#0d0d0d;border:0.5px solid #2255cc;border-radius:6px;padding:6px 8px;color:#f0ece0;font-size:12px;outline:none}
     .btn-save{background:#2255cc;color:white;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px;max-width:1100px;margin:0 auto}
-    .stat{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center}
-    .stat-num{font-size:36px;font-weight:800;color:#c9a84c}
-    .stat-label{font-size:12px;color:#a09880;margin-top:4px}
-    .alert{padding:12px 16px;border-radius:10px;font-size:13px;margin:0 24px 0;max-width:1100px;margin:8px auto}
-    .alert-success{background:#0a2a0a;color:#3d9e66;border:0.5px solid #2d7a4f}
-    .alert-error{background:#2a0a0a;color:#ff8888;border:0.5px solid #cc3333}
-    .confirm-dialog{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center}
+    .confirm-dialog{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.75);z-index:1000;align-items:center;justify-content:center}
     .confirm-box{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.2);border-radius:16px;padding:28px;max-width:380px;width:90%;text-align:center}
     .confirm-box h3{color:#f0ece0;font-size:16px;margin-bottom:8px}
     .confirm-box p{color:#a09880;font-size:13px;margin-bottom:20px;line-height:1.5}
     .confirm-btns{display:flex;gap:10px;justify-content:center}
     .btn-confirm-delete{background:#cc3333;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
     .btn-confirm-cancel{background:transparent;color:#a09880;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
+    .ac-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;margin-left:4px}
+    .ac-1{background:#0a2a0a;color:#3d9e66;border:0.5px solid #2d7a4f}
+    .ac-2{background:#0a1a2a;color:#4477ee;border:0.5px solid #2255cc}
   </style>
 </head>
 <body>
 
-<!-- Confirm Delete Dialog -->
-<div class="confirm-dialog" id="confirm-dialog" style="display:flex;display:none;">
+<div class="confirm-dialog" id="confirm-dialog">
   <div class="confirm-box">
     <h3>🗑️ Delete this card?</h3>
-    <p id="confirm-text">This action cannot be undone.</p>
+    <p id="confirm-text">This cannot be undone.</p>
     <div class="confirm-btns">
       <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
       <button class="btn-confirm-delete" onclick="submitDelete()">Yes, Delete</button>
@@ -81,102 +97,160 @@
   </div>
 </div>
 
-<% if(message){ %>
-<div style="max-width:1100px;margin:16px auto;padding:0 24px;">
+<div class="wrap">
+  <% if(message){ %>
   <div class="alert alert-<%= messageType %>"><%= message %></div>
-</div>
-<% } %>
+  <% } %>
 
-<div class="stats">
-  <div class="stat">
-    <div class="stat-num"><%= questions.filter(q=>q.active).length %></div>
-    <div class="stat-label">Active Questions</div>
-  </div>
-  <div class="stat">
-    <div class="stat-num"><%= answers.filter(a=>a.active).length %></div>
-    <div class="stat-label">Active Answers</div>
-  </div>
-</div>
-
-<div class="container">
-  <!-- QUESTIONS -->
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">Questions (Blue Cards)</span>
-      <span class="panel-count"><%= questions.length %> total</span>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num"><%= questions.length %></div>
+      <div class="stat-label">Total Questions</div>
     </div>
-    <form class="add-form" method="POST" action="/admin/questions/add">
-      <input type="text" name="text" placeholder="Add new question..." required dir="auto"/>
-      <button type="submit" class="btn-add">+ Add</button>
-    </form>
-    <div class="cards-list">
-      <% questions.forEach(q => { %>
-      <div class="card-item <%= q.active ? '' : 'inactive' %>">
-        <div class="card-text">
-          <span class="active-dot <%= q.active ? 'dot-on' : 'dot-off' %>"></span>
-          <%= q.text %>
+    <div class="stat">
+      <div class="stat-num"><%= questions.filter(q=>q.active).length %></div>
+      <div class="stat-label">Active Questions</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><%= answers.length %></div>
+      <div class="stat-label">Total Answers</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num"><%= answers.filter(a=>a.active).length %></div>
+      <div class="stat-label">Active Answers</div>
+    </div>
+  </div>
+
+  <div class="grid">
+
+    <!-- QUESTIONS PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Questions (Blue Cards)</span>
+          <span class="panel-count"><%= questions.length %> total</span>
         </div>
-        <div class="card-actions">
-          <form method="POST" action="/admin/questions/toggle/<%= q._id %>" style="display:inline">
-            <button type="submit" class="btn-sm btn-toggle"><%= q.active ? 'Disable' : 'Enable' %></button>
-          </form>
-          <button class="btn-sm btn-edit" onclick="toggleEdit('q-<%= q._id %>')">Edit</button>
-          <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/questions/delete/<%= q._id %>', '<%= q.text.replace(/'/g, `\\'`) %>')">Delete</button>
-        </div>
-        <form class="edit-form" id="q-<%= q._id %>" method="POST" action="/admin/questions/edit/<%= q._id %>">
-          <input type="text" name="text" value="<%= q.text %>" required dir="auto"/>
-          <button type="submit" class="btn-save">Save</button>
+
+        <!-- Single add -->
+        <form class="add-form" method="POST" action="/admin/questions/add">
+          <input type="text" name="text" placeholder="Add one question..." required dir="auto"/>
+          <select name="answerCount">
+            <option value="1">1 answer</option>
+            <option value="2">2 answers</option>
+          </select>
+          <button type="submit" class="btn-add">+ Add</button>
         </form>
-      </div>
-      <% }) %>
-    </div>
-  </div>
 
-  <!-- ANSWERS -->
-  <div class="panel">
-    <div class="panel-header">
-      <span class="panel-title">Answers (White Cards)</span>
-      <span class="panel-count"><%= answers.length %> total</span>
-    </div>
-    <form class="add-form" method="POST" action="/admin/answers/add">
-      <input type="text" name="text" placeholder="Add new answer..." required dir="auto"/>
-      <button type="submit" class="btn-add">+ Add</button>
-    </form>
-    <div class="cards-list">
-      <% answers.forEach(a => { %>
-      <div class="card-item <%= a.active ? '' : 'inactive' %>">
-        <div class="card-text">
-          <span class="active-dot <%= a.active ? 'dot-on' : 'dot-off' %>"></span>
-          <%= a.text %>
+        <!-- Bulk import -->
+        <div class="bulk-section">
+          <details>
+            <summary>📋 Bulk import questions (paste many at once)</summary>
+            <form method="POST" action="/admin/questions/bulk" class="bulk-inner">
+              <p class="bulk-hint">Paste one question per line. Duplicates are skipped automatically.</p>
+              <textarea name="bulkText" placeholder="2alouleh ___ bass ma sadda2et.&#10;Chou bte3mel la7zartak lamma tkoun brou7ak?&#10;Shou el a7san hediyyeh la 3id melad?&#10;..." dir="auto"></textarea>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <label style="font-size:12px;color:#a09880;">Answer count for all:</label>
+                <select name="answerCount" style="background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:6px;padding:5px 8px;color:#f0ece0;font-size:12px;outline:none;">
+                  <option value="1">1 answer each</option>
+                  <option value="2">2 answers each</option>
+                </select>
+                <button type="submit" class="btn-bulk">Import All</button>
+              </div>
+            </form>
+          </details>
         </div>
-        <div class="card-actions">
-          <form method="POST" action="/admin/answers/toggle/<%= a._id %>" style="display:inline">
-            <button type="submit" class="btn-sm btn-toggle"><%= a.active ? 'Disable' : 'Enable' %></button>
-          </form>
-          <button class="btn-sm btn-edit" onclick="toggleEdit('a-<%= a._id %>')">Edit</button>
-          <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/answers/delete/<%= a._id %>', '<%= a.text.replace(/'/g, `\\'`) %>')">Delete</button>
+
+        <!-- List -->
+        <div class="cards-list">
+          <% questions.forEach(q => { %>
+          <div class="card-item <%= q.active ? '' : 'inactive' %>">
+            <div class="card-text">
+              <span class="active-dot <%= q.active ? 'dot-on' : 'dot-off' %>"></span>
+              <%= q.text %>
+              <span class="ac-badge ac-<%= q.answerCount || 1 %>"><%= q.answerCount || 1 %> ans</span>
+            </div>
+            <div class="card-actions">
+              <form method="POST" action="/admin/questions/toggle/<%= q._id %>" style="display:inline">
+                <button type="submit" class="btn-sm btn-toggle"><%= q.active ? 'Disable' : 'Enable' %></button>
+              </form>
+              <button class="btn-sm btn-edit" onclick="toggleEdit('q-<%= q._id %>')">Edit</button>
+              <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/questions/delete/<%= q._id %>', '<%= q.text.replace(/'/g,"\\'").replace(/"/g,'&quot;').substr(0,40) %>')">Delete</button>
+            </div>
+            <form class="edit-form" id="q-<%= q._id %>" method="POST" action="/admin/questions/edit/<%= q._id %>">
+              <input type="text" name="text" value="<%= q.text %>" required dir="auto"/>
+              <select name="answerCount">
+                <option value="1" <%= (q.answerCount||1)===1?'selected':'' %>>1 ans</option>
+                <option value="2" <%= (q.answerCount||1)===2?'selected':'' %>>2 ans</option>
+              </select>
+              <button type="submit" class="btn-save">Save</button>
+            </form>
+          </div>
+          <% }) %>
         </div>
-        <form class="edit-form" id="a-<%= a._id %>" method="POST" action="/admin/answers/edit/<%= a._id %>">
-          <input type="text" name="text" value="<%= a.text %>" required dir="auto"/>
-          <button type="submit" class="btn-save">Save</button>
-        </form>
       </div>
-      <% }) %>
     </div>
+
+    <!-- ANSWERS PANEL -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Answers (White Cards)</span>
+          <span class="panel-count"><%= answers.length %> total</span>
+        </div>
+
+        <!-- Single add -->
+        <form class="add-form" method="POST" action="/admin/answers/add">
+          <input type="text" name="text" placeholder="Add one answer..." required dir="auto"/>
+          <button type="submit" class="btn-add">+ Add</button>
+        </form>
+
+        <!-- Bulk import -->
+        <div class="bulk-section">
+          <details>
+            <summary>📋 Bulk import answers (paste many at once)</summary>
+            <form method="POST" action="/admin/answers/bulk" class="bulk-inner">
+              <p class="bulk-hint">Paste one answer per line. Duplicates are skipped automatically.</p>
+              <textarea name="bulkText" placeholder="Pizza bel forn&#10;Netflix w chill&#10;Arak w mayeh&#10;Manakish 3a sabi3&#10;..." dir="auto"></textarea>
+              <button type="submit" class="btn-bulk">Import All</button>
+            </form>
+          </details>
+        </div>
+
+        <!-- List -->
+        <div class="cards-list">
+          <% answers.forEach(a => { %>
+          <div class="card-item <%= a.active ? '' : 'inactive' %>">
+            <div class="card-text">
+              <span class="active-dot <%= a.active ? 'dot-on' : 'dot-off' %>"></span>
+              <%= a.text %>
+            </div>
+            <div class="card-actions">
+              <form method="POST" action="/admin/answers/toggle/<%= a._id %>" style="display:inline">
+                <button type="submit" class="btn-sm btn-toggle"><%= a.active ? 'Disable' : 'Enable' %></button>
+              </form>
+              <button class="btn-sm btn-edit" onclick="toggleEdit('a-<%= a._id %>')">Edit</button>
+              <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/answers/delete/<%= a._id %>', '<%= a.text.replace(/'/g,"\\'").replace(/"/g,'&quot;').substr(0,40) %>')">Delete</button>
+            </div>
+            <form class="edit-form" id="a-<%= a._id %>" method="POST" action="/admin/answers/edit/<%= a._id %>">
+              <input type="text" name="text" value="<%= a.text %>" required dir="auto"/>
+              <button type="submit" class="btn-save">Save</button>
+            </form>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Hidden delete form -->
-<form id="delete-form" method="POST" style="display:none;">
-  <input type="hidden" name="_method" value="DELETE"/>
-</form>
+<form id="delete-form" method="POST" style="display:none;"></form>
 
 <script>
 function toggleEdit(id) {
   const form = document.getElementById(id);
   form.style.display = form.style.display === 'flex' ? 'none' : 'flex';
 }
-
 let deleteUrl = '';
 function confirmDelete(url, text) {
   deleteUrl = url;
@@ -192,9 +266,8 @@ function submitDelete() {
   form.action = deleteUrl;
   form.submit();
 }
-// Close dialog on backdrop click
 document.getElementById('confirm-dialog').addEventListener('click', function(e) {
-  if(e.target === this) closeConfirm();
+  if (e.target === this) closeConfirm();
 });
 </script>
 </body>

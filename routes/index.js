@@ -39,7 +39,40 @@ router.get('/admin/dashboard', requireAdmin, async (req, res) => {
   await renderDashboard(res);
 });
 
-// Questions
+// ── Bulk import questions ──
+router.post('/admin/questions/bulk', requireAdmin, async (req, res) => {
+  const raw = req.body.bulkText || '';
+  const answerCount = parseInt(req.body.answerCount) === 2 ? 2 : 1;
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) return renderDashboard(res, 'No questions found! Make sure each question is on a new line.', 'error');
+
+  let added = 0, skipped = 0;
+  for (const text of lines) {
+    const existing = await Question.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') } });
+    if (existing) { skipped++; continue; }
+    await Question.create({ text, answerCount });
+    added++;
+  }
+  await renderDashboard(res, `Bulk import done! Added: ${added} questions, Skipped (duplicates): ${skipped}`, added > 0 ? 'success' : 'error');
+});
+
+// ── Bulk import answers ──
+router.post('/admin/answers/bulk', requireAdmin, async (req, res) => {
+  const raw = req.body.bulkText || '';
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) return renderDashboard(res, 'No answers found! Make sure each answer is on a new line.', 'error');
+
+  let added = 0, skipped = 0;
+  for (const text of lines) {
+    const existing = await Answer.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') } });
+    if (existing) { skipped++; continue; }
+    await Answer.create({ text });
+    added++;
+  }
+  await renderDashboard(res, `Bulk import done! Added: ${added} answers, Skipped (duplicates): ${skipped}`, added > 0 ? 'success' : 'error');
+});
+
+// ── Single question ──
 router.post('/admin/questions/add', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   const answerCount = parseInt(req.body.answerCount) === 2 ? 2 : 1;
@@ -47,7 +80,7 @@ router.post('/admin/questions/add', requireAdmin, async (req, res) => {
   const existing = await Question.findOne({ text: { $regex: new RegExp(`^${escapeRegex(text)}$`, 'i') } });
   if (existing) return renderDashboard(res, `Duplicate! "${text}" already exists.`, 'error');
   await Question.create({ text, answerCount });
-  await renderDashboard(res, `Question added: "${text}" (${answerCount} answer${answerCount>1?'s':''})`, 'success');
+  await renderDashboard(res, `Question added: "${text}"`, 'success');
 });
 
 router.post('/admin/questions/delete/:id', requireAdmin, async (req, res) => {
@@ -58,7 +91,7 @@ router.post('/admin/questions/delete/:id', requireAdmin, async (req, res) => {
 router.post('/admin/questions/toggle/:id', requireAdmin, async (req, res) => {
   const q = await Question.findById(req.params.id);
   if (q) { q.active = !q.active; await q.save(); }
-  await renderDashboard(res, q ? `"${q.text}" ${q.active?'enabled':'disabled'}` : 'Not found!', 'success');
+  await renderDashboard(res, q ? `"${q.text}" ${q.active ? 'enabled' : 'disabled'}` : 'Not found!', 'success');
 });
 
 router.post('/admin/questions/edit/:id', requireAdmin, async (req, res) => {
@@ -71,7 +104,7 @@ router.post('/admin/questions/edit/:id', requireAdmin, async (req, res) => {
   await renderDashboard(res, `Updated: "${text}"`, 'success');
 });
 
-// Answers
+// ── Single answer ──
 router.post('/admin/answers/add', requireAdmin, async (req, res) => {
   const text = req.body.text?.trim();
   if (!text) return renderDashboard(res, 'Answer cannot be empty!', 'error');
@@ -89,7 +122,7 @@ router.post('/admin/answers/delete/:id', requireAdmin, async (req, res) => {
 router.post('/admin/answers/toggle/:id', requireAdmin, async (req, res) => {
   const a = await Answer.findById(req.params.id);
   if (a) { a.active = !a.active; await a.save(); }
-  await renderDashboard(res, a ? `"${a.text}" ${a.active?'enabled':'disabled'}` : 'Not found!', 'success');
+  await renderDashboard(res, a ? `"${a.text}" ${a.active ? 'enabled' : 'disabled'}` : 'Not found!', 'success');
 });
 
 router.post('/admin/answers/edit/:id', requireAdmin, async (req, res) => {
