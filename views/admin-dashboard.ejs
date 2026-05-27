@@ -12,54 +12,80 @@
     .header-right{display:flex;gap:12px;align-items:center}
     .badge{background:#0a1a2a;color:#4477ee;border:0.5px solid #2255cc;border-radius:6px;padding:4px 10px;font-size:12px}
     .logout{color:#a09880;font-size:13px;text-decoration:none;padding:6px 12px;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px}
-    .logout:hover{color:#f0ece0;border-color:rgba(255,255,255,0.3)}
+    .logout:hover{color:#f0ece0}
     .container{max-width:1100px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
     @media(max-width:768px){.container{grid-template-columns:1fr}}
     .panel{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.15);border-radius:16px;overflow:hidden}
     .panel-header{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}
-    .panel-title{font-size:14px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:1px}
+    .panel-title{font-size:12px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:1px}
     .panel-count{font-size:12px;color:#a09880;background:#242424;border-radius:20px;padding:3px 10px}
     .add-form{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;gap:8px}
     .add-form input{flex:1;background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 12px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
     .add-form input:focus{border-color:#c9a84c}
     .btn-add{background:#c9a84c;color:#1a1200;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
     .btn-add:hover{background:#e8c76d}
-    .cards-list{padding:12px 20px;display:flex;flex-direction:column;gap:6px;max-height:600px;overflow-y:auto}
+    .cards-list{padding:12px 20px;display:flex;flex-direction:column;gap:6px;max-height:560px;overflow-y:auto}
     .card-item{background:#242424;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px}
-    .card-item.inactive{opacity:0.45}
+    .card-item.inactive{opacity:0.4}
     .card-text{font-size:13px;font-family:'Tajawal','Segoe UI',sans-serif;line-height:1.4;margin-bottom:8px;color:#f0ece0}
     .card-actions{display:flex;gap:6px;flex-wrap:wrap}
     .btn-sm{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:0.5px solid;background:transparent}
     .btn-delete{color:#ff8888;border-color:#cc3333}
     .btn-delete:hover{background:#2a0a0a}
     .btn-toggle{color:#a09880;border-color:rgba(255,255,255,0.15)}
-    .btn-toggle:hover{color:#f0ece0;border-color:rgba(255,255,255,0.3)}
+    .btn-toggle:hover{color:#f0ece0}
     .btn-edit{color:#4477ee;border-color:#2255cc}
     .btn-edit:hover{background:#0a1a2a}
     .active-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
     .dot-on{background:#3d9e66}
     .dot-off{background:#555}
-    .edit-form{display:none;margin-top:8px;display:flex;gap:6px}
+    .edit-form{display:none;margin-top:8px;gap:6px}
     .edit-form input{flex:1;background:#0d0d0d;border:0.5px solid #2255cc;border-radius:6px;padding:6px 10px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
     .btn-save{background:#2255cc;color:white;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
-    .game-link{display:block;text-align:center;padding:12px;color:#c9a84c;font-size:13px;text-decoration:none;border-top:0.5px solid rgba(255,255,255,0.08)}
-    .game-link:hover{background:#242424}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px;max-width:1100px;margin:0 auto}
     .stat{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center}
     .stat-num{font-size:36px;font-weight:800;color:#c9a84c}
     .stat-label{font-size:12px;color:#a09880;margin-top:4px}
-    .full-width{grid-column:1/-1}
+    .alert{padding:12px 16px;border-radius:10px;font-size:13px;margin:0 24px 0;max-width:1100px;margin:8px auto}
+    .alert-success{background:#0a2a0a;color:#3d9e66;border:0.5px solid #2d7a4f}
+    .alert-error{background:#2a0a0a;color:#ff8888;border:0.5px solid #cc3333}
+    .confirm-dialog{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center}
+    .confirm-box{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.2);border-radius:16px;padding:28px;max-width:380px;width:90%;text-align:center}
+    .confirm-box h3{color:#f0ece0;font-size:16px;margin-bottom:8px}
+    .confirm-box p{color:#a09880;font-size:13px;margin-bottom:20px;line-height:1.5}
+    .confirm-btns{display:flex;gap:10px;justify-content:center}
+    .btn-confirm-delete{background:#cc3333;color:white;border:none;border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
+    .btn-confirm-cancel{background:transparent;color:#a09880;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer}
   </style>
 </head>
 <body>
+
+<!-- Confirm Delete Dialog -->
+<div class="confirm-dialog" id="confirm-dialog" style="display:flex;display:none;">
+  <div class="confirm-box">
+    <h3>🗑️ Delete this card?</h3>
+    <p id="confirm-text">This action cannot be undone.</p>
+    <div class="confirm-btns">
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm-delete" onclick="submitDelete()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
 <div class="header">
   <h1>🎴 Le3beh Admin</h1>
   <div class="header-right">
-    <span class="badge">Questions: <%= questions.length %> | Answers: <%= answers.length %></span>
+    <span class="badge">Q: <%= questions.length %> | A: <%= answers.length %></span>
     <a href="/" class="logout">← Game</a>
     <a href="/admin/logout" class="logout">Logout</a>
   </div>
 </div>
+
+<% if(message){ %>
+<div style="max-width:1100px;margin:16px auto;padding:0 24px;">
+  <div class="alert alert-<%= messageType %>"><%= message %></div>
+</div>
+<% } %>
 
 <div class="stats">
   <div class="stat">
@@ -95,9 +121,7 @@
             <button type="submit" class="btn-sm btn-toggle"><%= q.active ? 'Disable' : 'Enable' %></button>
           </form>
           <button class="btn-sm btn-edit" onclick="toggleEdit('q-<%= q._id %>')">Edit</button>
-          <form method="POST" action="/admin/questions/delete/<%= q._id %>" style="display:inline" onsubmit="return confirm('Delete this question?')">
-            <button type="submit" class="btn-sm btn-delete">Delete</button>
-          </form>
+          <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/questions/delete/<%= q._id %>', '<%= q.text.replace(/'/g, `\\'`) %>')">Delete</button>
         </div>
         <form class="edit-form" id="q-<%= q._id %>" method="POST" action="/admin/questions/edit/<%= q._id %>">
           <input type="text" name="text" value="<%= q.text %>" required dir="auto"/>
@@ -130,9 +154,7 @@
             <button type="submit" class="btn-sm btn-toggle"><%= a.active ? 'Disable' : 'Enable' %></button>
           </form>
           <button class="btn-sm btn-edit" onclick="toggleEdit('a-<%= a._id %>')">Edit</button>
-          <form method="POST" action="/admin/answers/delete/<%= a._id %>" style="display:inline" onsubmit="return confirm('Delete this answer?')">
-            <button type="submit" class="btn-sm btn-delete">Delete</button>
-          </form>
+          <button class="btn-sm btn-delete" onclick="confirmDelete('/admin/answers/delete/<%= a._id %>', '<%= a.text.replace(/'/g, `\\'`) %>')">Delete</button>
         </div>
         <form class="edit-form" id="a-<%= a._id %>" method="POST" action="/admin/answers/edit/<%= a._id %>">
           <input type="text" name="text" value="<%= a.text %>" required dir="auto"/>
@@ -144,11 +166,36 @@
   </div>
 </div>
 
+<!-- Hidden delete form -->
+<form id="delete-form" method="POST" style="display:none;">
+  <input type="hidden" name="_method" value="DELETE"/>
+</form>
+
 <script>
 function toggleEdit(id) {
   const form = document.getElementById(id);
   form.style.display = form.style.display === 'flex' ? 'none' : 'flex';
 }
+
+let deleteUrl = '';
+function confirmDelete(url, text) {
+  deleteUrl = url;
+  document.getElementById('confirm-text').textContent = `Delete "${text}"? This cannot be undone.`;
+  document.getElementById('confirm-dialog').style.display = 'flex';
+}
+function closeConfirm() {
+  document.getElementById('confirm-dialog').style.display = 'none';
+  deleteUrl = '';
+}
+function submitDelete() {
+  const form = document.getElementById('delete-form');
+  form.action = deleteUrl;
+  form.submit();
+}
+// Close dialog on backdrop click
+document.getElementById('confirm-dialog').addEventListener('click', function(e) {
+  if(e.target === this) closeConfirm();
+});
 </script>
 </body>
 </html>
