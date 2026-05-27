@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════════════════════════════════
+       LOBBY
+  ══════════════════════════════════════ -->
+  <div id="screen-lobby" class="screen active">
+    <div class="logo">
+      <h1>Le3beh 3a Krouteh</h1>
+      <p>لعبة أسئلة وأجوبة من النوع المالطوش</p>
+    </div>
+
+    <div class="card-box">
+      <h2>Host a New Game</h2>
+      <input type="text" id="inp-name-create" placeholder="Shou esmak?" maxlength="20" />
+      <button class="btn btn-gold" id="btn-create">Create Room</button>
+    </div>
+
+    <div class="card-box">
+      <h2>Join Existing Room</h2>
+      <input type="text" id="inp-name-join" placeholder="Shou esmak?" maxlength="20" style="margin-bottom:10px;" />
+      <input type="text" id="inp-code" class="code-input" placeholder="CODE" maxlength="4" />
+      <button class="btn btn-outline" id="btn-join">Join Room</button>
+    </div>
+
+    <div id="lobby-error"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       WAITING ROOM
+  ══════════════════════════════════════ -->
+  <div id="screen-waiting" class="screen">
+    <div class="logo"><h1>Le3beh 3a Krouteh</h1></div>
+
+    <div class="card-box">
+      <h2>Room Code — Share with friends!</h2>
+      <div class="room-code" id="display-code">????</div>
+      <p class="text-center" style="font-size:12px;color:var(--text2);">First to collect 5 blue cards wins</p>
+    </div>
+
+    <div class="card-box">
+      <h2>Players (<span id="player-count">1</span>)</h2>
+      <div class="players-list" id="players-list-waiting"></div>
+      <div class="mt16"></div>
+      <div id="start-btn-area"></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       GAME SCREEN
+  ══════════════════════════════════════ -->
+  <div id="screen-game" class="screen">
+
+    <div class="status-bar">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="status-dot"></div>
+        <span id="phase-text" style="font-size:13px;">...</span>
+      </div>
+      <div style="display:flex;gap:12px;" id="score-chips"></div>
+    </div>
+
+    <div class="round-info">
+      <div class="round-badge" id="round-badge">Round 1</div>
+      <div class="judge-badge" id="judge-badge">Judge: —</div>
+    </div>
+
+    <div class="question-card">
+      <div class="qlabel">Question</div>
+      <div class="qtext" id="current-question">...</div>
+    </div>
+
+    <!-- Non-judge: pick answer -->
+    <div id="panel-submit">
+      <div class="phase-label">Pick your best answer</div>
+      <div class="hand-grid" id="hand-cards"></div>
+      <button class="btn btn-gold" id="btn-submit" onclick="submitAnswer()" disabled>Submit Answer</button>
+    </div>
+
+    <!-- Non-judge: waiting after submit -->
+    <div id="panel-waiting-submit" style="display:none;">
+      <div class="phase-label">Waiting for everyone...</div>
+      <div class="submit-status" id="submit-chips"></div>
+      <div class="alert alert-info" id="waiting-msg">Waiting for others...</div>
+    </div>
+
+    <!-- Judge: waiting for submissions -->
+    <div id="panel-judge-waiting" style="display:none;">
+      <div class="alert alert-warn" id="judge-wait-msg">You are the judge — waiting for answers...</div>
+      <div class="submit-status" id="judge-submit-chips"></div>
+    </div>
+
+    <!-- Judge: all submitted, now pick -->
+    <div id="panel-judge-pick" style="display:none;">
+      <div class="phase-label">👇 Tap the answer you like the most</div>
+      <div id="judge-answers-list"></div>
+    </div>
+
+    <!-- Round result -->
+    <div id="panel-result" style="display:none;">
+      <div class="phase-label">Round Result</div>
+      <div class="alert alert-success" id="result-msg"></div>
+      <div id="result-answers-list"></div>
+      <div class="mt16"></div>
+      <div id="next-round-area"></div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════
+       WINNER SCREEN
+  ══════════════════════════════════════ -->
+  <div id="screen-winner" class="screen">
+    <div class="winner-screen">
+      <div class="trophy">🏆</div>
+      <h2 id="winner-name">Player</h2>
+      <p id="winner-msg">rebe7 el da22!</p>
+      <div class="mt24"></div>
+      <div id="final-scores"></div>
+      <div class="mt24"></div>
+      <button class="btn btn-gold" onclick="resetToLobby()">Play Again</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/client.js"></script>
+</body>
+</html>

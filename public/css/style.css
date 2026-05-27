@@ -1,0 +1,415 @@
+/* public/css/style.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0d0d;
+  --surface: #1a1a1a;
+  --surface2: #242424;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.15);
+  --gold: #c9a84c;
+  --gold-light: #e8c76d;
+  --blue: #2255cc;
+  --blue-light: #4477ee;
+  --text: #f0ece0;
+  --text2: #a09880;
+  --green: #2d7a4f;
+  --green-light: #3d9e66;
+  --red: #cc3333;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', 'Segoe UI', sans-serif;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ── Screens ── */
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Logo ── */
+.logo { text-align: center; padding: 28px 0 10px; }
+.logo h1 { font-size: 38px; font-weight: 800; color: var(--gold); letter-spacing: -1px; }
+.logo p { color: var(--text2); font-family: 'Tajawal', sans-serif; font-size: 17px; margin-top: 4px; }
+
+/* ── Card box ── */
+.card-box {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: 16px;
+  padding: 20px;
+  margin: 14px 0;
+}
+.card-box h2 {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* ── Inputs ── */
+input[type=text] {
+  width: 100%;
+  background: var(--bg);
+  border: 0.5px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input[type=text]:focus { border-color: var(--gold); }
+input.code-input {
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  border: none;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+  width: 100%;
+  margin-top: 6px;
+}
+.btn-gold { background: var(--gold); color: #1a1200; }
+.btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+.btn-outline { background: transparent; border: 0.5px solid var(--border2); color: var(--text); }
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 14px 0;
+  color: var(--text2);
+  font-size: 12px;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border2);
+}
+
+/* ── Room code display ── */
+.room-code {
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 10px;
+  padding: 14px 0;
+}
+
+/* ── Player list ── */
+.players-list { display: flex; flex-direction: column; gap: 8px; }
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 10px;
+  border: 0.5px solid var(--border);
+}
+.player-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.av-gold  { background: #3a2c00; color: var(--gold); }
+.av-blue  { background: #0a1a3a; color: var(--blue-light); }
+.av-green { background: #0a2a1a; color: var(--green-light); }
+.av-red   { background: #2a0a0a; color: #ff6666; }
+.av-purple{ background: #1a0a2a; color: #bb88ff; }
+
+.player-name { flex: 1; font-size: 14px; font-weight: 600; }
+.badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+.badge-host    { background: #2a1e00; color: var(--gold); }
+.badge-you     { background: #0a1a2a; color: var(--blue-light); }
+.badge-ready   { background: #0a2a0a; color: var(--green-light); }
+.badge-waiting { background: var(--surface); color: var(--text2); border: 0.5px solid var(--border2); }
+
+/* ── Status bar ── */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 16px;
+  background: var(--surface);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+.status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green-light);
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ── Round info bar ── */
+.round-info { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.round-badge {
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text2);
+}
+.judge-badge {
+  background: #0a1a2a;
+  border: 0.5px solid var(--blue);
+  border-radius: 8px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blue-light);
+}
+
+/* ── Question card ── */
+.question-card {
+  background: var(--blue);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+.question-card::before {
+  content: '?';
+  position: absolute;
+  right: -10px; bottom: -20px;
+  font-size: 130px;
+  font-weight: 900;
+  opacity: 0.08;
+  line-height: 1;
+}
+.question-card .qlabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+.question-card .qtext {
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: white;
+  font-family: 'Tajawal', sans-serif;
+}
+
+/* ── Hand of answer cards ── */
+.hand-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.answer-card {
+  background: var(--surface);
+  border: 0.5px solid var(--border2);
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 13px;
+  font-family: 'Tajawal', sans-serif;
+  line-height: 1.4;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  user-select: none;
+}
+.answer-card:hover {
+  border-color: var(--gold);
+  background: var(--surface2);
+  transform: translateY(-2px);
+}
+.answer-card.selected {
+  border-color: var(--gold);
+  background: #2a1e00;
+}
+.answer-card.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 8px; right: 10px;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ── Judge pick cards ── */
+.judge-answer-card {
+  background: var(--surface2);
+  border: 0.5px solid var(--border2);
+  border-radius: 14px;
+  padding: 18px 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+  font-family: 'Tajawal', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  position: relative;
+}
+.judge-answer-card:hover {
+  border-color: var(--gold-light);
+  background: #2a1e00;
+  transform: translateY(-2px);
+}
+.judge-answer-card.chosen {
+  border-color: var(--green-light);
+  background: #0a2a0a;
+  pointer-events: none;
+}
+.judge-answer-card.chosen::after {
+  content: '🏆';
+  position: absolute;
+  top: 14px; right: 16px;
+  font-size: 20px;
+}
+.judge-answer-card.unchosen {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* ── Alerts ── */
+.alert {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+.alert-info    { background: #0a1a2a; color: var(--blue-light); border: 0.5px solid var(--blue); }
+.alert-warn    { background: #2a1e00; color: var(--gold-light); border: 0.5px solid var(--gold); }
+.alert-success { background: #0a2a0a; color: var(--green-light); border: 0.5px solid var(--green); }
+.alert-error   { background: #2a0a0a; color: #ff8888; border: 0.5px solid var(--red); }
+
+/* ── Submit status chips ── */
+.submit-status { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.player-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: var(--surface2);
+  border: 0.5px solid var(--border);
+  font-size: 12px;
+  color: var(--text2);
+}
+.player-chip.done { border-color: var(--green-light); background: #0a2a0a; color: var(--green-light); }
+
+/* ── Phase label ── */
+.phase-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  margin-bottom: 10px;
+}
+
+/* ── Result answers ── */
+.result-answer-item {
+  padding: 13px 16px;
+  background: var(--surface2);
+  border-radius: 10px;
+  border: 0.5px solid var(--border);
+  font-family: 'Tajawal', sans-serif;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+.result-answer-item.winner {
+  border-color: var(--green-light);
+  background: #0a2a0a;
+}
+
+/* ── Winner screen ── */
+.winner-screen { text-align: center; padding: 36px 16px; }
+.winner-screen .trophy { font-size: 80px; }
+.winner-screen h2 { font-size: 48px; font-weight: 800; color: var(--gold); margin-top: 8px; }
+.winner-screen p { color: var(--text2); font-family: 'Tajawal', sans-serif; font-size: 18px; margin-top: 6px; }
+
+.score-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--surface2);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+.score-name { flex: 1; font-size: 14px; }
+.score-pts { font-size: 22px; font-weight: 800; color: var(--gold); }
+
+/* ── Utilities ── */
+.mt8  { margin-top: 8px; }
+.mt16 { margin-top: 16px; }
+.mt24 { margin-top: 24px; }
+.text-center { text-align: center; }
+
+/* ── Score chips in status bar ── */
+.score-mini {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+.score-mini-name {
+  font-size: 10px;
+  color: var(--text2);
+  max-width: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.score-mini-pts {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+}

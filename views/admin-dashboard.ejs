@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:#0d0d0d;color:#f0ece0;font-family:'Segoe UI',sans-serif}
+    .header{background:#1a1a1a;border-bottom:0.5px solid rgba(255,255,255,0.1);padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+    .header h1{color:#c9a84c;font-size:20px}
+    .header-right{display:flex;gap:12px;align-items:center}
+    .badge{background:#0a1a2a;color:#4477ee;border:0.5px solid #2255cc;border-radius:6px;padding:4px 10px;font-size:12px}
+    .logout{color:#a09880;font-size:13px;text-decoration:none;padding:6px 12px;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px}
+    .logout:hover{color:#f0ece0;border-color:rgba(255,255,255,0.3)}
+    .container{max-width:1100px;margin:0 auto;padding:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    @media(max-width:768px){.container{grid-template-columns:1fr}}
+    .panel{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.15);border-radius:16px;overflow:hidden}
+    .panel-header{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}
+    .panel-title{font-size:14px;font-weight:700;color:#c9a84c;text-transform:uppercase;letter-spacing:1px}
+    .panel-count{font-size:12px;color:#a09880;background:#242424;border-radius:20px;padding:3px 10px}
+    .add-form{padding:16px 20px;border-bottom:0.5px solid rgba(255,255,255,0.08);display:flex;gap:8px}
+    .add-form input{flex:1;background:#0d0d0d;border:0.5px solid rgba(255,255,255,0.15);border-radius:8px;padding:9px 12px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
+    .add-form input:focus{border-color:#c9a84c}
+    .btn-add{background:#c9a84c;color:#1a1200;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+    .btn-add:hover{background:#e8c76d}
+    .cards-list{padding:12px 20px;display:flex;flex-direction:column;gap:6px;max-height:600px;overflow-y:auto}
+    .card-item{background:#242424;border:0.5px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px}
+    .card-item.inactive{opacity:0.45}
+    .card-text{font-size:13px;font-family:'Tajawal','Segoe UI',sans-serif;line-height:1.4;margin-bottom:8px;color:#f0ece0}
+    .card-actions{display:flex;gap:6px;flex-wrap:wrap}
+    .btn-sm{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;border:0.5px solid;background:transparent}
+    .btn-delete{color:#ff8888;border-color:#cc3333}
+    .btn-delete:hover{background:#2a0a0a}
+    .btn-toggle{color:#a09880;border-color:rgba(255,255,255,0.15)}
+    .btn-toggle:hover{color:#f0ece0;border-color:rgba(255,255,255,0.3)}
+    .btn-edit{color:#4477ee;border-color:#2255cc}
+    .btn-edit:hover{background:#0a1a2a}
+    .active-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:4px}
+    .dot-on{background:#3d9e66}
+    .dot-off{background:#555}
+    .edit-form{display:none;margin-top:8px;display:flex;gap:6px}
+    .edit-form input{flex:1;background:#0d0d0d;border:0.5px solid #2255cc;border-radius:6px;padding:6px 10px;color:#f0ece0;font-size:13px;outline:none;font-family:'Tajawal','Segoe UI',sans-serif}
+    .btn-save{background:#2255cc;color:white;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer}
+    .game-link{display:block;text-align:center;padding:12px;color:#c9a84c;font-size:13px;text-decoration:none;border-top:0.5px solid rgba(255,255,255,0.08)}
+    .game-link:hover{background:#242424}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px}
+    .stat{background:#1a1a1a;border:0.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;text-align:center}
+    .stat-num{font-size:36px;font-weight:800;color:#c9a84c}
+    .stat-label{font-size:12px;color:#a09880;margin-top:4px}
+    .full-width{grid-column:1/-1}
+  </style>
+</head>
+<body>
+<div class="header">
+  <h1>🎴 Le3beh Admin</h1>
+  <div class="header-right">
+    <span class="badge">Questions: <%= questions.length %> | Answers: <%= answers.length %></span>
+    <a href="/" class="logout">← Game</a>
+    <a href="/admin/logout" class="logout">Logout</a>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num"><%= questions.filter(q=>q.active).length %></div>
+    <div class="stat-label">Active Questions</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num"><%= answers.filter(a=>a.active).length %></div>
+    <div class="stat-label">Active Answers</div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- QUESTIONS -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Questions (Blue Cards)</span>
+      <span class="panel-count"><%= questions.length %> total</span>
+    </div>
+    <form class="add-form" method="POST" action="/admin/questions/add">
+      <input type="text" name="text" placeholder="Add new question..." required dir="auto"/>
+      <button type="submit" class="btn-add">+ Add</button>
+    </form>
+    <div class="cards-list">
+      <% questions.forEach(q => { %>
+      <div class="card-item <%= q.active ? '' : 'inactive' %>">
+        <div class="card-text">
+          <span class="active-dot <%= q.active ? 'dot-on' : 'dot-off' %>"></span>
+          <%= q.text %>
+        </div>
+        <div class="card-actions">
+          <form method="POST" action="/admin/questions/toggle/<%= q._id %>" style="display:inline">
+            <button type="submit" class="btn-sm btn-toggle"><%= q.active ? 'Disable' : 'Enable' %></button>
+          </form>
+          <button class="btn-sm btn-edit" onclick="toggleEdit('q-<%= q._id %>')">Edit</button>
+          <form method="POST" action="/admin/questions/delete/<%= q._id %>" style="display:inline" onsubmit="return confirm('Delete this question?')">
+            <button type="submit" class="btn-sm btn-delete">Delete</button>
+          </form>
+        </div>
+        <form class="edit-form" id="q-<%= q._id %>" method="POST" action="/admin/questions/edit/<%= q._id %>">
+          <input type="text" name="text" value="<%= q.text %>" required dir="auto"/>
+          <button type="submit" class="btn-save">Save</button>
+        </form>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- ANSWERS -->
+  <div class="panel">
+    <div class="panel-header">
+      <span class="panel-title">Answers (White Cards)</span>
+      <span class="panel-count"><%= answers.length %> total</span>
+    </div>
+    <form class="add-form" method="POST" action="/admin/answers/add">
+      <input type="text" name="text" placeholder="Add new answer..." required dir="auto"/>
+      <button type="submit" class="btn-add">+ Add</button>
+    </form>
+    <div class="cards-list">
+      <% answers.forEach(a => { %>
+      <div class="card-item <%= a.active ? '' : 'inactive' %>">
+        <div class="card-text">
+          <span class="active-dot <%= a.active ? 'dot-on' : 'dot-off' %>"></span>
+          <%= a.text %>
+        </div>
+        <div class="card-actions">
+          <form method="POST" action="/admin/answers/toggle/<%= a._id %>" style="display:inline">
+            <button type="submit" class="btn-sm btn-toggle"><%= a.active ? 'Disable' : 'Enable' %></button>
+          </form>
+          <button class="btn-sm btn-edit" onclick="toggleEdit('a-<%= a._id %>')">Edit</button>
+          <form method="POST" action="/admin/answers/delete/<%= a._id %>" style="display:inline" onsubmit="return confirm('Delete this answer?')">
+            <button type="submit" class="btn-sm btn-delete">Delete</button>
+          </form>
+        </div>
+        <form class="edit-form" id="a-<%= a._id %>" method="POST" action="/admin/answers/edit/<%= a._id %>">
+          <input type="text" name="text" value="<%= a.text %>" required dir="auto"/>
+          <button type="submit" class="btn-save">Save</button>
+        </form>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleEdit(id) {
+  const form = document.getElementById(id);
+  form.style.display = form.style.display === 'flex' ? 'none' : 'flex';
+}
+</script>
+</body>
+</html>
